@@ -109,7 +109,7 @@ export default function App() {
         <button
           type="button"
           onClick={() => setTab('map')}
-          className="flex min-w-0 items-center gap-2 rounded-lg pr-1 text-left transition hover:opacity-90"
+          className="flex min-h-[40px] min-w-0 items-center gap-2 rounded-lg pr-1 text-left transition hover:opacity-90"
           aria-label={t('appName')}
         >
           <span
@@ -138,7 +138,7 @@ export default function App() {
         <button
           type="button"
           onClick={() => setTab('profile')}
-          className="chip hidden shrink-0 sm:inline-flex"
+          className="chip hidden min-h-[40px] shrink-0 items-center sm:inline-flex"
           aria-label={t('statLevel')}
         >
           <span className="mono text-[10px] font-bold" style={{ color: 'var(--signal)' }}>
@@ -153,7 +153,7 @@ export default function App() {
         <button
           type="button"
           onClick={() => void setLang(lang === 'zh' ? 'en' : 'zh')}
-          className="chip shrink-0"
+          className="chip min-h-[40px] shrink-0"
           aria-label={t('language')}
           title={t('language')}
           data-testid="lang-toggle"
@@ -164,7 +164,7 @@ export default function App() {
         <button
           type="button"
           onClick={() => void setTheme(settings.theme === 'dark' ? 'light' : 'dark')}
-          className="chip shrink-0 px-2.5"
+          className="chip min-h-[40px] min-w-[40px] shrink-0 px-2.5"
           aria-label={t('theme')}
           title={settings.theme === 'dark' ? t('themeLight') : t('themeDark')}
           data-testid="theme-toggle"

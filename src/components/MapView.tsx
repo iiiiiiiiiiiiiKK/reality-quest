@@ -528,7 +528,7 @@ export function QuestList(props: QuestListProps) {
               key={c}
               type="button"
               onClick={() => setCategory(c)}
-              className={`chip shrink-0 ${category === c ? 'chip-active' : ''}`}
+              className={`chip min-h-[40px] shrink-0 ${category === c ? 'chip-active' : ''}`}
               aria-pressed={category === c}
             >
               {c === 'all' ? t('allCategories') : CATEGORY_LABEL[c][lang]}
@@ -538,7 +538,7 @@ export function QuestList(props: QuestListProps) {
         <div className="flex items-center justify-between gap-2">
           <button
             type="button"
-            className="mono text-[10px] uppercase tracking-wider text-chalk-500 transition hover:text-chalk-100"
+            className="mono flex min-h-[40px] min-w-[40px] items-center text-[10px] uppercase tracking-wider text-chalk-500 transition hover:text-chalk-100"
             onClick={() => setSort(sort === 'distance' ? 'xp' : 'distance')}
           >
             {sort === 'distance' ? `⇅ ${t('sortByDistance')}` : `⇅ ${t('sortByXp')}`}

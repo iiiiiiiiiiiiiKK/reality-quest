@@ -69,29 +69,29 @@ Reality Quest is a real-world exploration game. Your city *is* the map. Find a r
 
 | 深色 · Dark | 浅色 · Light |
 |---|---|
-| ![desktop dark](docs/screenshots/desktop-dark.png) | ![desktop light](docs/screenshots/desktop-light.png) |
+| ![desktop dark](docs/screenshots/desktop-dark.jpg) | ![desktop light](docs/screenshots/desktop-light.jpg) |
 
 ### 任务详情 · Quest detail
 
-![quest detail](docs/screenshots/quest-detail.png)
+![quest detail](docs/screenshots/quest-detail.jpg)
 
 ### 足迹 · Footprints
 
-![footprints](docs/screenshots/footprints.png)
+![footprints](docs/screenshots/footprints.jpg)
 
 ### 个人档案 · Profile
 
-![profile](docs/screenshots/profile.png)
+![profile](docs/screenshots/profile.jpg)
 
 ### 移动端 · Mobile (iPhone 390×844)
 
 | 地图 · Map | 任务列表 · Sheet |
 |---|---|
-| ![mobile map](docs/screenshots/mobile-map.png) | ![mobile sheet](docs/screenshots/mobile-sheet.png) |
+| ![mobile map](docs/screenshots/mobile-map.jpg) | ![mobile sheet](docs/screenshots/mobile-sheet.jpg) |
 
 | 任务详情 · Quest |
 |---|
-| ![mobile quest](docs/screenshots/mobile-quest.png) |
+| ![mobile quest](docs/screenshots/mobile-quest.jpg) |
 
 ---
 
@@ -292,6 +292,27 @@ CHROME_PATH="/path/to/chrome" BASE_URL="http://127.0.0.1:4173" node e2e/run.mjs
 
 截图由同一套 Playwright 脚本产出：`node e2e/shots.mjs`。
 
+### 响应式 / 移动端专项审计
+
+`node e2e/mobile.mjs` 会在 10 种真实视口下逐项检查布局（320×568、375×667、375×812、390×844、430×932、412×915、横屏 844×390、平板 768×1024、窄桌面 1024×768、桌面 1440×900）。
+
+当前结果：**122 项检查全部通过。**
+
+每个视口都验证：
+
+| 检查项 | 为什么重要 |
+|---|---|
+| 无横向溢出（`scrollWidth ≤ clientWidth`） | 手机上一旦出现横向滚动条，整个界面手感就毁了 |
+| 外壳不纵向滚动 | 只有内部面板可以滚动；页面本身滚动会让底部导航跑位 |
+| 顶部 5 个控件全部在视口内 | 作者 𝕏、语言、主题、等级不能被挤出屏幕 |
+| 顶部控件高度 40–120px | 既够点，又不至于占掉半个屏幕 |
+| 所有可交互元素 ≥ 40px 高 | WCAG 2.5.8 最小目标尺寸；地图标记按地理锚点豁免 |
+| 底部导航贴合屏幕底边 | 不能被 Home Indicator 或安全区顶起来 |
+| 5 个等宽标签，每个 ≥ 44px | 拇指可达，不会误触 |
+| 地图高度 ≥ 320px（横屏 ≥ 150px） | 地图是主角，不能被挤压 |
+| 抽屉不超出视口、内容内部滚动 | 小屏上抽屉不能盖住整页 |
+| 无页面级 JS 错误 | 每种视口都单独跑一遍 |
+
 ---
 
 ## 部署 · Deployment
@@ -403,4 +424,5 @@ Overpass 超时/限流 →  内置地标 + 明确的服务不可用提示（带�
 [MIT](./LICENSE) © 2025 [@0xkillcoin](https://x.com/0xkillcoin)
 
 地图数据 © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright)，按 [ODbL](https://opendatacommons.org/licenses/odbl/) 授权。
+
 

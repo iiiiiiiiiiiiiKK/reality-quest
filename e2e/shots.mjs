@@ -73,14 +73,15 @@ async function main() {
     await page.waitForTimeout(900);
     await page.screenshot({ path: `${OUT}/desktop-light.png` });
 
-    // footprints tab
-    await page.locator('[data-testid="tabbar"] button, nav[aria-label="desktop-nav"] button').nth(2).click();
-    await page.waitForTimeout(1200);
+    // footprints tab (desktop rail is the visible nav at this width)
+    const rail = page.locator('nav[aria-label="desktop-nav"] button');
+    await rail.nth(2).click({ force: true });
+    await page.waitForTimeout(1500);
     await page.screenshot({ path: `${OUT}/footprints.png` });
 
     // profile tab
-    await page.locator('[data-testid="tabbar"] button, nav[aria-label="desktop-nav"] button').nth(3).click();
-    await page.waitForTimeout(1200);
+    await rail.nth(3).click({ force: true });
+    await page.waitForTimeout(1500);
     await page.screenshot({ path: `${OUT}/profile.png` });
 
     await ctx.close();

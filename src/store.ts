@@ -402,13 +402,9 @@ export const useStore = create<State>((set, get) => ({
       });
     }
 
-    let locality: string | undefined;
-    try {
-      locality = await reverseLocality(location.lat, location.lng, get().settings.lang);
-    } catch {
-      locality = undefined;
-    }
-
+    // Reverse geocoding is purely cosmetic (it labels the "cities explored"
+    // stat). It must never block the completion write, so it is resolved
+    // *after* the record is committed and patched in when it arrives.
     const completion: Completion = {
       id: uid(),
       questId: quest.id,
@@ -429,7 +425,7 @@ export const useStore = create<State>((set, get) => ({
       text: text?.trim() ? text.trim().slice(0, 2000) : undefined,
       photoId,
       isPublic: share,
-      locality,
+      locality: undefined,
     };
 
     const beforeXp = get().profile.xp;
@@ -459,6 +455,21 @@ export const useStore = create<State>((set, get) => ({
       levelUp: levelAfter > levelBefore ? { level: levelAfter } : undefined,
       badgeQueue: [...get().badgeQueue, ...fresh.map((badge) => ({ badge }))],
     });
+
+    // Fire-and-forget locality label; a slow or failing Nominatim never delays
+    // or blocks the reward the user just earned.
+    void (async () => {
+      try {
+        const locality = await reverseLocality(location.lat, location.lng, get().settings.lang);
+        if (!locality) return;
+        await updateCompletion(completion.id, { locality });
+        const refreshed = await loadCompletions();
+        set({ completions: refreshed });
+      } catch {
+        /* cosmetic only */
+      }
+    })();
+
     return { ok: true, xp };
   },
 
